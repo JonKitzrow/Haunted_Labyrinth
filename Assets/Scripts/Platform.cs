@@ -4,48 +4,61 @@ using UnityEngine;
 
 public class Platform : MonoBehaviour
 {
-    bool bridgeX, bridgeZ, bridgeXLast, bridgeZLast;
+    bool bridgeX, bridgeZ, bridgeXLast, bridgeZLast, isDoor, isKey;
     public Animator bridgeXAnim, bridgeZAnim;
+    public GameObject door, key;
 
 
     // Start is called before the first frame update
     void Start()
     {
-
+      bridgeX = false;
+      bridgeZ = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+      // update platform content
+      if (isDoor && !door.activeSelf)
+      {
+        door.SetActive(true);
+      }
+
+      if (isKey && !key.activeSelf)
+      {
+        key.SetActive(true);
+      }
+
+      if (!isKey && key.activeSelf)
+      {
+        key.SetActive(false);
+      }
+
+      // update bridges
       if (bridgeXLast != bridgeX)
       {
         bridgeXLast = bridgeX;
-        Debug.Log("X: " + bridgeX);
         if (bridgeX)
         {
           bridgeXAnim.SetTrigger("Extend");
-          Debug.Log("Extend X");
         }
         else
         {
           bridgeXAnim.SetTrigger("Retract");
-          Debug.Log("Retract X");
         }
       }
 
       if (bridgeZLast != bridgeZ)
       {
         bridgeZLast = bridgeZ;
-        Debug.Log("Z: " + bridgeZ);
         if (bridgeZ)
         {
           bridgeZAnim.SetTrigger("Extend");
-          Debug.Log("Extend Z");
         }
         else
         {
           bridgeZAnim.SetTrigger("Retract");
-          Debug.Log("Retract Z");
         }
       }
     }
@@ -68,5 +81,25 @@ public class Platform : MonoBehaviour
     public void setZ(bool b)
     {
       bridgeZ = b;
+    }
+
+    public void setDoor(bool b)
+    {
+      isDoor = b;
+    }
+
+    public bool getIsDoor()
+    {
+      return isDoor;
+    }
+
+    public void setKey(bool b)
+    {
+      isKey = b;
+    }
+
+    public bool getIsKey()
+    {
+      return isKey;
     }
 }
